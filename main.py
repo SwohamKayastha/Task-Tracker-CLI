@@ -69,6 +69,28 @@ def delete_item(delete_id, filepath):
         json.dump(new_data, fb, indent=4, sort_keys=True)
 
 
+# Function to update the certain field of the task
+@click.command()
+@click.argument("filepath", type=click.Path(exists=False), required=0)
+@click.option("--update_id", prompt="Enter the id of the task that you want to update", help="Input id to update the task")
+@click.option("--update_field", prompt="Enter the item that you want to update from the task", help="Input the item that you want to update")
+@click.option("--update_task", prompt="Enter the task that you want to update:",help="Input the value of task to be updated")
+def update_item(update_id, update_field, update_task, filepath):
+    filepath = "store.json"
+    with open(filepath, 'r') as fb:
+        data = json.load(fb)
+
+    for i in data["list"]:
+        if i["id"] == int(update_id):
+            i[update_field] = update_task
+            break
+
+    print(f"{update_field} has been updated in id: {update_id}")
+
+    with open(filepath, 'w') as fb:
+        json.dump(data, fb, indent=4, sort_keys=True)
+
+
 # Function to read whole list
 @click.command()
 @click.argument("filepath", type=click.Path(exists=False), required=0)
@@ -125,6 +147,7 @@ def display_completed(filepath):
 # Command Function
 commands.add_command(item)
 commands.add_command(delete_item)
+commands.add_command(update_item)
 commands.add_command(display)
 commands.add_command(display_progress)
 commands.add_command(display_completed)
