@@ -1,12 +1,4 @@
 {
     "list": [
-        {
-            "name": "Swoham",
-            "to_do": "Task Tracker CLI"
-        },
-        {
-            "name": "Kayastha",
-            "to_do": "CLI"
-        }
     ]
 }
