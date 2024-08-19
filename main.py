@@ -44,6 +44,31 @@ def item(name, to_do, progress, filepath):
         json.dump(data, fb, indent=4, sort_keys=True)
 
 
+# Function that delete a certain task with given id of it
+@click.command()
+@click.argument("filepath", type=click.Path(exists=False), required=0)
+@click.option("--delete_id", prompt="Enter the id of the task you want to delete", help="Delete a item from the task")
+def delete_item(delete_id, filepath):
+    filepath = "store.json"
+    with open(filepath, 'r') as fb:
+        data = json.load(fb)
+
+    new_data = {
+                    "list": [
+                    ]
+                }
+
+    for entry in data["list"]:
+        if entry["id"] == int(delete_id):
+            print(f"Deleting the task {entry["name"]}")
+            pass
+        else:
+            new_data["list"].append(entry)
+
+    with open(filepath, 'w') as fb:
+        json.dump(new_data, fb, indent=4, sort_keys=True)
+
+
 # Function to read whole list
 @click.command()
 @click.argument("filepath", type=click.Path(exists=False), required=0)
@@ -97,9 +122,9 @@ def display_completed(filepath):
                 print(f"Progress: {i["progress"]}\n")
 
 
-
 # Command Function
 commands.add_command(item)
+commands.add_command(delete_item)
 commands.add_command(display)
 commands.add_command(display_progress)
 commands.add_command(display_completed)
